@@ -3,10 +3,10 @@ ipywidgets==8.0.4
 langchain==0.0.317
 matplotlib==3.6.3
 numpy==1.23.5
-pandas==1.4.3
+pandas
 scikit_learn==1.1.1
 scipy==1.9.3
-spacy==3.5.3
+spacy
 textacy==0.13.0
 tqdm==4.65.0
 wordcloud==1.9.2
