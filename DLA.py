@@ -29,7 +29,7 @@ class DLAnalyzer:
     be the DASS dataframe we've been working from, but can also be
     any subset of that dataframe. 
     """
-    def __init__(self, df, text_col, outcome_col, id_col, remove_stops=True, lemmatize=False, min_word_freq=0, min_narr_size=5, alpha=.05, name=None): # TODO: extend to multiple columns
+    def __init__(self, df, text_col, outcome_col, id_col, remove_stops=True, lemmatize=False, min_word_freq=0, min_narr_size=5, alpha=.05, name=None, normalize=False): # TODO: extend to multiple columns
         self.remove_stops = remove_stops
         self.lemmatize = lemmatize
         self.min_word_freq = min_word_freq
@@ -38,6 +38,7 @@ class DLAnalyzer:
         self.text_col = text_col
         self.outcome_col = outcome_col
         self.id_col = id_col
+        self.normalize = normalize
 
         df = df.dropna(subset=self.text_col)
         df = df.loc[df[self.text_col].str.len() > self.min_narr_size].reset_index(drop=True)
@@ -93,12 +94,12 @@ class DLAnalyzer:
         self.gn = group_norms
         return group_norms
     
-    def get_outcomes(self, normalize=True):
+    def get_outcomes(self):
         """
         Pulls the outcome columns from the dataframe and arranges
         them into the correct format
         """
-        if normalize: self.df[self.outcome_col] = (self.df[self.outcome_col] - np.mean(self.df[self.outcome_col]))/(np.std(self.df[self.outcome_col]))
+        if self.normalize: self.df[self.outcome_col] = (self.df[self.outcome_col] - np.mean(self.df[self.outcome_col]))/(np.std(self.df[self.outcome_col]))
         outcomes = self.df[[self.id_col, self.outcome_col]]
         outcome_pmn = {}
         for i in range(len(outcomes)):
